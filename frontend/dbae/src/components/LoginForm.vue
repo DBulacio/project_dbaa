@@ -1,16 +1,18 @@
 <template>
    <div class="container"> 
-            <input v-model="this.inputName" type="text">Name:
-            {{ this.inputName }}
-            <input v-model="this.inputPassword" type="password">Password:
-            <button :disabled="this.disableButton" @click="login()">{{loginButton}}</button>
-        
+        <input v-model="this.inputName" type="text">Name:
+        <input v-model="this.inputPassword" type="password">Password:
+        <button :disabled="this.disableButton" @click="login()">{{loginButton}}</button>
+        <PopUp :color="this.popUpColor" :text="this.popUpText"/>
     </div>
 
 </template>
 
 <script>
+import { defineAsyncComponent} from 'vue';
+
     export default {
+        
         data() {
             return {
                 password: "1234",
@@ -18,33 +20,36 @@
                 loginButton: "Login",
                 disableButton: false,
                 inputName: "",
-                inputPassword: ""
-
+                inputPassword: "",
+                popUpColor: "",
+                popUpText: ""
             }
         },
         methods: {
-        login() {
-            
-            this.disableButton = true
-            if (this.inputName === this.userName && this.inputPassword === this.password){
-                console.log("Bienvenido ahre")
-                this.loginButton = "Loading"
+            login() {
+                this.disableButton = true
+                if (this.inputName === this.userName && this.inputPassword === this.password){
+                    this.loginButton = "Loading"
+                    this.popUpColor = "green"
+                    this.popUpText = "Bienvenido"
+                }
+                else {
+                   
+                    this.disableButton = false
+                    this.inputName = ""
+                    this.inputPassword = ""
+                    this.popUpColor = "red"
+                    this.popUpText = "Login incorrecto"
+                }           
             }
-            else {
-                console.log("Dale wahcin...")
-                this.disableButton = false
-                this.inputName = ""
-                this.inputPassword = ""
-            }
-            
+        },
+        components: {
+      PopUp: defineAsyncComponent(() => import ('./PopUp.vue'))
         }
     }
-}
-    
-
 </script>
 
-<style>
+<style scoped>
 .container {
   display: flex;
   flex-direction: column;

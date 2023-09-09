@@ -14,7 +14,7 @@
   }
 </script>
 
-<style>
+<style scope>
 @media (min-width: 1024px) {
   .login {
     min-height: 100vh;
